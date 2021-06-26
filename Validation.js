@@ -46,5 +46,13 @@ export default function Validation(){
         document.querySelector(selectorError).innerHTML = '';
         return true;
     }
+    this.kiemTraDoDai = function (value,selectorError,minLength,maxLength, name){
+        if(value.trim().length < minLength || value.trim().length > maxLength){ 
+            document.querySelector(selectorError).innerHTML = `${name} từ ${minLength} - ${maxLength} ký tự`;
+            return false;
+        }
+        document.querySelector(selectorError).innerHTML ='';
+        return true;
+    }    
     
 }

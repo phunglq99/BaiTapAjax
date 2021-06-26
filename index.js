@@ -152,11 +152,12 @@ document.querySelector('#btnThemNV').onclick = (e, index) =>{
     vali &= validation.kiemTraTatCaKyTu(nhanVien.tenNhanVien,'#error_allletter_tenNhanVien','Tên nhân viên'),    
          
          //Kiểm tra giới hạn nhập
-    vali &= validation.kiemTraGiaTri(nhanVien.maNhanVien,'#error_min_max_value_maNhanVien',4,6,'Mã nhân viên')
     vali &= validation.kiemTraGiaTri(nhanVien.luongCoBan,'#error_min_max_value_luongCoBan',1000000,6000000,'Lương cơ bản')     
     vali &= validation.kiemTraGio(nhanVien.soGioLamTrongThang,'#error_min_max_value_soGioLam',50,150,'Số giờ làm trong tháng') 
-    
-         if(!vali){
+         //Kiểm tra độ dài
+    vali &= validation.kiemTraDoDai(nhanVien.maNhanVien,'#error_min_max_length_maNhanVien',4,6,'Mã nhân viên')    
+         
+    if(!vali){
         return;
     }
         
