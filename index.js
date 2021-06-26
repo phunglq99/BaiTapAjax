@@ -110,9 +110,6 @@ document.querySelector('#btnThemNV').onclick = (e, index) =>{
     // console.log('arrInput',arrInput);
     var nhanVien = {};
     let heSoChucVu = 0;
-    var vali = true;
-
-
         for(let input of arrInput){
 
             let {name ,value}  = input;
@@ -139,6 +136,7 @@ document.querySelector('#btnThemNV').onclick = (e, index) =>{
            
             console.log('nhanVien',nhanVien);               
         }
+        var vali = true;
         //Kiểm tra rỗng
     vali &= validation.kiemTraRong(nhanVien.maNhanVien,'#error_required_maNhanVien','Mã nhân viên') 
          & validation.kiemTraRong(nhanVien.tenNhanVien,'#error_required_tenNhanVien','Tên nhân viên') 
@@ -217,6 +215,7 @@ const suaNhanVien = (maNV) =>{
     document.querySelector('#btnLuuThongTin').onclick = function(){
         let arrInput = document.querySelectorAll('form input,select');
         // console.log('arrInput',arrInput);
+        let validation = new Validation();
         var nhanVien = {};
         let heSoChucVu = 0;
     
@@ -241,6 +240,29 @@ const suaNhanVien = (maNV) =>{
             nhanVien = {...nhanVien,heSoChucVu, [name] : value};
             console.log('nhanVien',nhanVien);
         }
+        var vali = true;
+        //Kiểm tra rỗng
+    vali &= validation.kiemTraRong(nhanVien.maNhanVien,'#error_required_maNhanVien','Mã nhân viên') 
+         & validation.kiemTraRong(nhanVien.tenNhanVien,'#error_required_tenNhanVien','Tên nhân viên') 
+         & validation.kiemTraRong(nhanVien.luongCoBan,'#error_required_luongCoBan','Lương cơ bản') 
+         & validation.kiemTraRong(nhanVien.soGioLamTrongThang,'#error_required_soGioLam','Số giờ làm');
+
+        //Kiểm tra là number
+    vali &= validation.kiemTraTatCaSo(nhanVien.maNhanVien,'#error_allnumber_maNhanVien','Mã nhân viên')
+         & validation.kiemTraTatCaSo(nhanVien.luongCoBan,'#error_allnumber_luongCoBan','Lương cơ bản')        
+         & validation.kiemTraTatCaSo(nhanVien.soGioLamTrongThang,'#error_allnumber_soGioLam','Số giờ làm');    
+        
+         //Kiểm tra là letter
+    vali &= validation.kiemTraTatCaKyTu(nhanVien.tenNhanVien,'#error_allletter_tenNhanVien','Tên nhân viên'),    
+         
+         //Kiểm tra giới hạn nhập
+    vali &= validation.kiemTraGiaTri(nhanVien.maNhanVien,'#error_min_max_value_maNhanVien',4,6,'Mã nhân viên')
+    vali &= validation.kiemTraGiaTri(nhanVien.luongCoBan,'#error_min_max_value_luongCoBan',1000000,6000000,'Lương cơ bản')     
+    vali &= validation.kiemTraGio(nhanVien.soGioLamTrongThang,'#error_min_max_value_soGioLam',50,150,'Số giờ làm trong tháng') 
+    
+         if(!vali){
+        return;
+    }
         var promise = axios({
             url:`http://svcy.myclass.vn/api/QuanLyNhanVienApi/CapNhatThongTinNhanVien?maNhanVien=${nhanVien.maNhanVien}`,
             method:'PUT',

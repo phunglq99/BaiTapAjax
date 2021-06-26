@@ -46,4 +46,5 @@ export default function Validation(){
         document.querySelector(selectorError).innerHTML = '';
         return true;
     }
+    
 }
